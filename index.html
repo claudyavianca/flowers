@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buket Tulip for You 🌷</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    background: linear-gradient(to bottom, #0d1b2a, #1b263b, #415a77);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Judul */
+.header-text {
+    position: absolute;
+    top: 8%;
+    text-align: center;
+    color: #fff;
+    z-index: 10;
+}
+
+.header-text h1 {
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-shadow: 0 0 12px rgba(255,255,255,0.6);
+    margin-bottom: 6px;
+}
+
+.header-text p {
+    font-size: 0.95rem;
+    color: #e0e1dd;
+    opacity: 0.8;
+}
+
+/* Latar Belakang Bintang & Kunang-kunang */
+.night{ position:fixed; inset:0; }
+.stars{
+    position:absolute; inset:0;
+    background-image: radial-gradient(white 1px,transparent 1px);
+    background-size:80px 80px; opacity:.4;
+}
+
+.firefly{
+    position:absolute; width:5px; height:5px; border-radius:50%;
+    background:#ffd700; box-shadow:0 0 12px #ffe600;
+    animation:fly 8s linear infinite;
+}
+
+@keyframes fly{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    20%{ opacity:1; }
+    100%{ transform:translateY(-600px) translateX(80px); opacity:0; }
+}
+
+/* Wadah Buket Bunga */
+.bouquet-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    z-index: 2;
+}
+
+/* Pita Buket Bunga */
+.ribbon {
+    position: absolute;
+    bottom: -10px;
+    width: 40px;
+    height: 40px;
+    background: #ff4d6d;
+    clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%, 20% 50%);
+    z-index: 20;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+.flowers{
+    display:flex;
+    gap: 15px;
+}
+
+.flower{
+    position:relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.flower:hover { transform: scale(1.08) translateY(-10px); }
+
+/* Batang Melengkung Khas Buket */
+.stem{
+    width:6px;
+    height:220px;
+    background: linear-gradient(to right, #2d6a4f, #52b788);
+    border-radius: 4px;
+    margin:auto;
+}
+
+.flower:nth-child(1) .stem { transform: rotate(12deg); transform-origin: bottom center; }
+.flower:nth-child(2) .stem { transform: rotate(-5deg); height: 250px; }
+.flower:nth-child(3) .stem { transform: rotate(-14deg); transform-origin: bottom center; }
+
+/* Daun Tulip */
+.leaf{
+    position:absolute;
+    width:25px;
+    height:120px;
+    background: linear-gradient(to top, #2d6a4f, #74c69d);
+    border-radius: 100% 0 100% 0;
+}
+
+.left{ left:-15px; top:80px; transform:rotate(-15deg); }
+.right{ right:-15px; top:90px; transform:scaleX(-1) rotate(-15deg); }
+
+/* Bunga Tulip (Kuncup) */
+.tulip-head {
+    position: absolute;
+    left: 50%;
+    bottom: 210px;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 80px;
+}
+
+.flower:nth-child(2) .tulip-head { bottom: 240px; }
+
+/* Kelopak-Kelopak Tulip */
+.petal-tulip {
+    position: absolute;
+    width: 38px;
+    height: 70px;
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.p-left {
+    left: 2px;
+    transform: rotate(-12deg);
+    z-index: 1;
+}
+
+.p-right {
+    right: 2px;
+    transform: rotate(12deg);
+    z-index: 2;
+}
+
+.p-center {
+    left: 11px;
+    top: 5px;
+    width: 38px;
+    height: 72px;
+    z-index: 3;
+    border-radius: 50% 50% 50% 50%;
+}
+
+/* Pesan Kejutan saat Diklik */
+.card-popup {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 25px 35px;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    z-index: 100;
+}
+
+.card-popup p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; }
+.close-btn {
+    background: #ff4d6d; color: white; border: none;
+    padding: 8px 22px; border-radius: 20px; cursor: pointer; font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header-text">
+    <h1> bunga  untuk kamu sayang :3 🌷</h1>
+    <p>(Klik bunganya satu per satu)</p>
+</div>
+
+<div class="night"><div class="stars"></div></div>
+
+<div class="bouquet-container">
+    <div class="flowers" id="flowers"></div>
+    <div class="ribbon"></div>
+</div>
+
+<div class="card-popup" id="popup">
+    <p id="popup-text">Pesan manis di sini...</p>
+    <button class="close-btn" onclick="closePopup()">Tutup</button>
+</div>
+
+<script>
+// Data Tulip: Gradasi Warna & Pesan Spesial
+const tulipsData = [
+    { 
+        main: '#ff758c', 
+        gradient: 'linear-gradient(to top, #ff4d6d, #ff758c, #ff8fa3)',
+        text: "Semoga hari kamu selalu indah ya sayang ✨" 
+    },
+    { 
+        main: '#ffb703', 
+        gradient: 'linear-gradient(to top, #fb8500, #ffb703, #ffe3a8)',
+        text: "Maacii ya udah selalu ada buat aku ❤️" 
+    },
+    { 
+        main: '#c77dff', 
+        gradient: 'linear-gradient(to top, #7b2cbf, #9d4edd, #e0aaff)',
+        text: "I'm so lucky to have someone like you in my life! 🌷" 
+    }
+];
+
+const wrap = document.getElementById("flowers");
+const popup = document.getElementById("popup");
+const popupText = document.getElementById("popup-text");
+
+tulipsData.forEach((data) => {
+    const flower = document.createElement("div");
+    flower.className = "flower";
+
+    flower.innerHTML = `
+        <div class="tulip-head">
+            <div class="petal-tulip p-left" style="background: ${data.gradient}"></div>
+            <div class="petal-tulip p-right" style="background: ${data.gradient}"></div>
+            <div class="petal-tulip p-center" style="background: ${data.gradient}"></div>
+        </div>
+        <div class="stem"></div>
+        <div class="leaf left"></div>
+        <div class="leaf right"></div>
+    `;
+
+    flower.addEventListener("click", () => {
+        popupText.innerText = data.text;
+        popup.style.display = "block";
+    });
+
+    wrap.appendChild(flower);
+});
+
+function closePopup() { popup.style.display = "none"; }
+
+// Buat Kunang-kunang
+for(let i = 0; i < 25; i++){
+    const fly = document.createElement("div");
+    fly.className = "firefly";
+    fly.style.left = Math.random() * 100 + "vw";
+    fly.style.top = (30 + Math.random() * 60) + "vh";
+    fly.style.animationDelay = Math.random() * 8 + "s";
+    fly.style.animationDuration = (6 + Math.random() * 6) + "s";
+    document.body.appendChild(fly);
+}
+
+// Animasi Goyang Buket Halus
+const flowers = document.querySelectorAll(".flower");
+flowers.forEach((flower, index) => {
+    flower.animate(
+        [
+            { transform: "rotate(-2deg)" },
+            { transform: "rotate(2deg)" },
+            { transform: "rotate(-2deg)" }
+        ],
+        {
+            duration: 3500 + index * 500,
+            iterations: Infinity,
+            easing: "ease-in-out"
+        }
+    );
+});
+</script>
+
+</body>
+</html>
